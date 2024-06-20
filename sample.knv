@@ -1,0 +1,19 @@
+import std::cli::*;
+
+fn fibonnaci(n: Uint): Uint || {
+        var prev: Uint = 0;
+	var next: Uint = 1;
+	for 1 ..< n {
+	        let curr = next;
+		next += prev;
+		prev = curr;
+	}
+	return prev;
+}
+
+fn factorial_r(n: Uint): Uint || = if n < 3 then n else n * factorial_r(n - 1);
+
+fn main() {
+        message := "Hello, World!";
+        println(message);
+}
