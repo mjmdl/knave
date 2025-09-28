@@ -5,6 +5,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 void knave_error(const char *format, ...);
 void knave_warning(const char *format, ...);
 void knave_info(const char *format, ...);
@@ -29,6 +33,10 @@ void knave_window_move_to_center(Knave_Window *window);
 bool knave_window_focus(const Knave_Window *window);
 void knave_window_focus_set(Knave_Window *window, bool focus);
 
+#if defined(__cplusplus)
+}
+#endif
+
 #endif /* KNAVE_H */
 
 #if defined(KNAVE_IMPLEMENTATION)
@@ -39,6 +47,10 @@ void knave_window_focus_set(Knave_Window *window, bool focus);
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
 
 #define DEFINE_PRINT_FUNCTION(NAME, PREFIX, STREAM) \
 	void NAME(const char *format, ...) \
@@ -90,7 +102,7 @@ static char *k_strdup(const char *string)
 
 	for (length = 0; string[length] != '\0'; ++length) {}
 
-	data = malloc(length + 1);
+	data = (char *)malloc(length + 1);
 	if (data == NULL) return NULL;
 
 	for (i = 0; i <= length; ++i) {
@@ -134,7 +146,7 @@ Knave_Window *knave_window_create(void)
 	int x, y, border_width, io_class, attribs_mask;
 	XSetWindowAttributes attribs;
 
-	window = malloc(sizeof *window);
+	window = (Knave_Window *)malloc(sizeof *window);
 	if (window == NULL) {
 		knave_error("Failed to allocate %lu bytes for the window.", sizeof *window);
 		goto on_failure;
@@ -352,7 +364,7 @@ static int k_check_glx_version(Display *display)
 
 static GLXFBConfig k_fbconfig_find(Display *display, int screen)
 {
-	static const int Attribs[] = {
+	static const unsigned int Attribs[] = {
 		GLX_FBCONFIG_ID, GLX_DONT_CARE,
 		GLX_BUFFER_SIZE, 0,
 		GLX_LEVEL, 0,
@@ -384,7 +396,7 @@ static GLXFBConfig k_fbconfig_find(Display *display, int screen)
 	GLXFBConfig *options, best;
 	int count, i, best_samples;
 
-	options = glXChooseFBConfig(display, screen, Attribs, &count);
+	options = glXChooseFBConfig(display, screen, (int *)Attribs, &count);
 	if (options == NULL || count < 1) {
 		knave_error("Failed to retrieve any GLX framebuffer configuration.");
 		return NULL;
@@ -531,6 +543,10 @@ static void k_window_event_dispatch(Knave_Window *window, const XEvent *event)
 		break;
 	}
 }
+
+#if defined(__cplusplus)
+}
+#endif
 
 #endif /* __linux__ */
 #endif /* KNAVE_IMPLEMENTATION */

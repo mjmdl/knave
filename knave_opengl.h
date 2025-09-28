@@ -3,6 +3,10 @@
 
 #include <GL/gl.h>
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 /* #define EXPAND(RETURN, NAME, ARGUMENTS) */
 #define KNAVE_OPENGL_FUNCTIONS(EXPAND)                                  \
 	EXPAND(void, glActiveShaderProgram, (GLuint pipeline, GLuint program)) \
@@ -59,10 +63,18 @@ KNAVE_OPENGL_FUNCTIONS(EXPAND)
 
 int knave_opengl_library_load(void);
 
+#if defined(__cplusplus)
+}
+#endif
+
 #endif /* KNAVE_OPENGL_H */
 
 #if defined(KNAVE_OPENGL_IMPLEMENTATION)
 #undef KNAVE_OPENGL_IMPLEMENTATION
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
 
 #define EXPAND(RETURN, NAME, ARGUMENTS) \
 	RETURN (*NAME)ARGUMENTS;
@@ -85,6 +97,10 @@ int knave_opengl_library_load(void)
 #	undef EXPAND
 	return 0;
 }
+
+#if defined(__cplusplus)
+}
+#endif
 
 #endif /* __linux__ */
 
