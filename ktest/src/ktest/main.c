@@ -1,9 +1,8 @@
-#include <stdio.h>
-
-#include <kcore/value.h>
+#define KCORE_LOG_TAG "ktest"
+#include <kcore/log.h>
 
 int main(void)
 {
-	printf("The value is: %.2f!\n", get_value());
+	KCORE_DEBUG("Hello, World!");
 	return 0;
 }

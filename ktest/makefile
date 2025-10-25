@@ -1,7 +1,7 @@
 .PHONY: all
 
 CC        ?= gcc
-CFLAGS    ?= --std=c89 -Wpedantic -Wall -Wextra
+CFLAGS    ?= --std=c17 -Wpedantic -Wall -Wextra
 LFLAGS    ?=
 BUILD_DIR ?= ./build
 
